@@ -1,0 +1,37 @@
+@startuml quest schema
+    class PlayerQuest {
+        quest_id
+        player_id
+    }
+
+    class Player {}
+
+    class Cat {
+        name
+        health
+        mana
+        atk
+        def
+        spatk
+        spdef
+        spd
+    }
+
+    class PlayerCat {
+        player_id
+        cat_id
+
+        level
+        xp
+        health
+        mana
+        happiness
+        hunger
+    }
+
+    class CatAbility {
+        ability_id
+        cat_id
+    }
+
+@enduml
