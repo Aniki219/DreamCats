@@ -17,11 +17,11 @@ export default async function DayCare() {
             )
         } else {
             return (
-                <>
+                <ul>
                     {cats.map((cat) => (
-                        <p>{cat.name}</p>
+                        <li>{cat.name}</li>
                     ))}
-                </>
+                </ul>
             )
         }
     }
