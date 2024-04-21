@@ -1,7 +1,7 @@
 const BASE_URL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3000"
-    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+    : ``;
 
 const INCLUDES_FORWARD_SLASH_AT_START_REGEX = /^\/(.|\n)*$/;
 const INCLUDES_FORWARD_SLASH_AT_START = (string: string) =>
