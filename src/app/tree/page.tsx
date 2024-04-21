@@ -9,6 +9,7 @@ export default function Tree() {
                 <li><Link href="daycare">Daycare</Link></li>
                 <li><Link href="cafe">Cafe</Link></li>
                 <li><Link href="battle">Battle</Link></li>
+                <li><Link href="cats">Cats Index</Link></li>
             </ul>
         </>
     )
