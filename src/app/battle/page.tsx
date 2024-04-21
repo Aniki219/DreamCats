@@ -2,19 +2,9 @@
 
 import Link from "next/link";
 import styles from "./page.module.css";
-import Enemy from "@/models/Enemy";
+import Enemy, {EnemyData} from "@/models/Enemy";
 import React, { useEffect, useRef, useState } from 'react'
 import Ability from "@/models/Ability";
-
-export class EnemyData {
-    maxhealth:number;
-    health:number;
-
-    constructor(maxhp:number) {
-        this.maxhealth = maxhp;
-        this.health = maxhp;
-    }
-}
 
 export class AbilityData {
     

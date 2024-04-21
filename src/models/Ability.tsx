@@ -1,4 +1,4 @@
-import { EnemyData } from '@/app/other/page';
+import { EnemyData } from '@/models/Enemy';
 import React from 'react'
 import { ReactDOM } from 'react'
 

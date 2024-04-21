@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
         <h1>Home Page</h1>
-        <Link href="other">Other Page</Link>
+        <Link href="tree">Visit your tree</Link>
     </div>
   );
 }
