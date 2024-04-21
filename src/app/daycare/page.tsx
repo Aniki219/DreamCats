@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { CatData } from "@/models/Cat";
 import axios from "axios";
+import getUrl from "../lib/utils/getUrl";
 
 const getCats = async () => {
-    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/cats`, {method:"GET"});
+    const {data} = await axios.get(getUrl(`/api/cats`), {method:"GET"});
     return data;
 }
 
