@@ -8,6 +8,7 @@ export default function Tree() {
             <ul>
                 <li><Link href="daycare">Daycare</Link></li>
                 <li><Link href="cafe">Cafe</Link></li>
+                <li><Link href="battle">Battle</Link></li>
             </ul>
         </>
     )

@@ -1,34 +1,36 @@
 import Link from "next/link"
 import { sql } from "@vercel/postgres"
 import { CatData } from "@/models/Cat";
+import { fetchCats } from "@/services/CatService";
 
-async function fetchCats() {
-    try {
-        const data = await sql<CatData>`SELECT * FROM cats;`;
-        return data.rows;
-    } catch(e) {
-        console.error(e);
-    }
-}
+
 
 export default async function DayCare() {
     const cats = await fetchCats();
 
-    if (!cats) {
-        return (
-            <p>
-                Fetching Cats List...
-            </p>
-        )
+    const catsList = () => {
+        if (!cats) {
+            return (
+                <p>
+                    Fetching Cats List...
+                </p>
+            )
+        } else {
+            return (
+                <>
+                    {cats.map((cat) => (
+                        <p>{cat.name}</p>
+                    ))}
+                </>
+            )
+        }
     }
     
     return (
         <div>
             <h2>Daycare</h2>
             <p>Select a Cat to adopt</p>
-            {cats.map((cat) => (
-                <p>{cat.name}</p>
-            ))}
+            {catsList()}
             <p>Choose one</p>
 
             <Link href="./tree">Return to the Tree</Link>

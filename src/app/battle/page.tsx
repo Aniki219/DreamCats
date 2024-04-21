@@ -38,7 +38,7 @@ export default function Battle() {
 
             {GetBattleUI()}
 
-            <Link href="/">Home Page</Link>
+            <Link href="tree">Back to Tree</Link>
         </div>
     );  
 }
