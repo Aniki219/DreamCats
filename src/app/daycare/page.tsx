@@ -2,7 +2,7 @@ import Link from "next/link"
 import { sql } from "@vercel/postgres"
 import { CatData } from "@/models/Cat";
 
-export async function fetchCats() {
+async function fetchCats() {
     try {
         const data = await sql<CatData>`SELECT * FROM cats;`;
         return data.rows;
