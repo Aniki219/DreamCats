@@ -1,12 +1,14 @@
 import Link from "next/link"
-import { sql } from "@vercel/postgres"
 import { CatData } from "@/models/Cat";
-import { fetchCats } from "@/services/CatService";
+import axios from "axios";
 
-
+const getCats = async () => {
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_URL}/api/cats`, {method:"GET"});
+    return data;
+}
 
 export default async function DayCare() {
-    const cats = await fetchCats();
+    const {cats} = await getCats();
 
     const catsList = () => {
         if (!cats) {
@@ -16,12 +18,15 @@ export default async function DayCare() {
                 </p>
             )
         } else {
+            console.log(cats);
             return (
-                <>
-                    {cats.map((cat) => (
-                        <p>{cat.name}</p>
+                <ul>
+                    {cats.map((cat:CatData, i:number) => (
+                        <li key={i}>
+                            <button>{cat.name}</button>
+                        </li>
                     ))}
-                </>
+                </ul>
             )
         }
     }

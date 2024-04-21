@@ -11,14 +11,12 @@ export async function fetchCats() {
     }
 }
 
-export async function fetchCatById(id:string) {
+export async function fetchCatById(id:string):Promise<CatData> {
     try {
         const data = await sql<CatData>`SELECT * FROM cats WHERE id=${id};`;
-        if (!data.rows[0]) {
-            throw new NextResponse(`No cat found with id: ${id}`, {status: 404});
-        }
         return data.rows[0];
     } catch(e) {
-        console.log('Internal Error:' + e);
+        console.log('Database Error:' + e);
+        throw new NextResponse(`No cat found with id: ${id}`, {status: 404});
     }
 }
