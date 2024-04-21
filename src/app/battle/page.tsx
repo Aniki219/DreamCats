@@ -6,10 +6,6 @@ import Enemy, {EnemyData} from "@/models/Enemy";
 import React, { useEffect, useRef, useState } from 'react'
 import Ability from "@/models/Ability";
 
-export class AbilityData {
-    
-}
-
 export default function Battle() {
     const [enemy, setEnemy] = useState(new EnemyData(3));
 
