@@ -1,4 +1,4 @@
-import { CatData } from "@/models/Cat";
+import { CatData } from "@/components/Cat";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 

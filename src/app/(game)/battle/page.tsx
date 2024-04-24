@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import styles from "./page.module.css";
-import Enemy, {EnemyData} from "@/models/Enemy";
+import Enemy, {EnemyData} from "@/components/Enemy";
 import React, { useEffect, useRef, useState } from 'react'
-import Ability from "@/models/Ability";
+import Ability from "@/components/Ability";
 
 export default function Battle() {
     const [enemy, setEnemy] = useState(new EnemyData(3));

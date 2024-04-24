@@ -4,10 +4,12 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { signIn } from '@/../auth';
+
 import { AuthError } from 'next-auth';
 
 import { isRedirectError } from "next/dist/client/components/redirect";
+import { signIn, signOut } from '../api/auth/[...nextauth]/route';
+
 
 export async function authenticate(
   prevState: string | undefined,
@@ -17,7 +19,7 @@ export async function authenticate(
         await signIn('credentials', {
             redirectTo: "/tree",
             email: formData.get("email") as string,
-            password:formData.get("password") as string
+            password: formData.get("password") as string
         });
     } catch (error) {
         if (isRedirectError(error)) {
@@ -33,5 +35,19 @@ export async function authenticate(
             }
         }
         throw error;
+    }
+}
+
+export async function doSignOut() {
+    try {
+        await signOut({
+            redirectTo: "/login",
+        });
+    } catch (error) {
+        if (isRedirectError(error)) {
+            throw error;
+        }
+        console.log(error);
+        throw error
     }
 }

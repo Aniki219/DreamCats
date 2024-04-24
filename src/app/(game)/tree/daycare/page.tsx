@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { sql } from "@vercel/postgres"
-import { CatData } from "@/models/Cat";
+import { CatData } from "@/components/Cat";
 import { fetchCats } from "@/services/CatService";
 
 

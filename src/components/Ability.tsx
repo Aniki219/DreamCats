@@ -1,4 +1,4 @@
-import { EnemyData } from '@/models/Enemy';
+import { EnemyData } from '@/components/Enemy';
 import React from 'react'
 import { ReactDOM } from 'react'
 
