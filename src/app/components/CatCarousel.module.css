@@ -1,4 +1,35 @@
-.thumbnail > * {
-    width: 150px;
-    height: 150px;
+.carousel {
+    max-width: 140vh;
+    border: 1px solid black;
+    height: 80vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wheel {
+    border: 1px solid blue;
+    height: 70%;
+    width: 50%;
+    max-width: 60vh;
+    min-width: 300px;
+    top: 15%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.wheel > button {
+    all: unset;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.thumbnail > img {
+    position: absolute;
+    width: 50%;
+    padding: 10px;
+    aspect-ratio: 1;
+    top: 25%;
+    box-sizing: border-box;
 }

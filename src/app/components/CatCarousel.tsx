@@ -3,6 +3,7 @@ import { CatData } from "@/models/Cat";
 import { useState } from "react";
 import { circleIndex } from "../lib/utils/helpers";
 import styles from "./CatCarousel.module.css"
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 interface CatCarouselData {
     catList: CatData[],
@@ -18,23 +19,30 @@ export default function CatCarousel({catList, catImages}:CatCarouselData) {
     }
 
     return (
-        <div className="carousel">
-            <div className="wheel">
-                <div className="name-plate">
+        <div className={styles.carousel}>
+            <div className={styles.wheel}>
+                <div className={styles.namePlate}>
                     <h3>{catList[index].name}</h3>
                     <p><i>{catList[index].id}</i></p>
                 </div>
                 <div className={styles.thumbnail}>
-                    <img src={catImages[circleIndex(index-1, len)].url}></img>
+                    <img style={{left: "-25%"}} 
+                            src={catImages[circleIndex(index-1, len)].url}></img>
                 </div>
                 <div className={styles.thumbnail}>
-                    <img src={catImages[index].url}></img>
+                    <img style={{left: "25%", zIndex: "1"}} 
+                            src={catImages[index].url}></img>
                 </div>
                 <div className={styles.thumbnail}>
-                    <img src={catImages[circleIndex(index+1, len)].url}></img>
+                    <img style={{right: "-25%"}} 
+                            src={catImages[circleIndex(index+1, len)].url}></img>
                 </div>
-                <button onClick={() => {incIndex(-1)}}>Prev</button>
-                <button onClick={() => {incIndex(1)}}>Next</button>
+                <button style={{left:0}} onClick={() => {incIndex(-1)}}>
+                    <ArrowBigLeft/>
+                </button>
+                <button style={{right:0}} onClick={() => {incIndex(1)}}>
+                    <ArrowBigRight/>
+                </button>
             </div>
             <div className="statsPage">
             
