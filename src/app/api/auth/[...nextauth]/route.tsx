@@ -21,7 +21,7 @@ export const authConfig = {
     session: {
       strategy: "jwt"
     },
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     debug: process.env.NODE_ENV === "development",
     providers: [
         Credentials({
