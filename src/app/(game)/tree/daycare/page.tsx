@@ -33,7 +33,7 @@ export default async function DayCare() {
             {catsList()}
             <p>Choose one</p>
 
-            <Link href="./tree">Return to the Tree</Link>
+            <Link href="../tree">Return to the Tree</Link>
         </div>
     )
 }

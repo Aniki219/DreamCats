@@ -24,7 +24,7 @@ export default async function CatsIndex() {
             <>
             <h2>Cats Index</h2>
             <CatCarousel catList={cats} catImages={catImages}/>
-            <Link href={`tree`}>Return to Tree</Link>
+            <Link href={`../tree`}>Return to Tree</Link>
             </>
         )
     }
