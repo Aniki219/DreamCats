@@ -6,6 +6,7 @@ import { sql } from '@vercel/postgres';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcryptjs';
 import type { NextAuthConfig } from 'next-auth';
+import { getUserByEmail } from '@/services/userService';
  
 export const authConfig = {
   pages: {
@@ -32,10 +33,10 @@ export const authConfig = {
      
             if (parsedCredentials.success) {
               const { email, password } = parsedCredentials.data;
-              const user = await getUser(email);
-              if (!user) return null;
+              const user = await getUserByEmail(email);
+              if (!user) throw Error("User not found");
               const passwordsMatch = await bcrypt.compare(password, user.password);
-              if (passwordsMatch) return user;
+              if (passwordsMatch) return user as User;
             }
             
             console.log('Invalid credentials');
@@ -44,15 +45,5 @@ export const authConfig = {
         }),
       ],
 } satisfies NextAuthConfig;
- 
-async function getUser(email: string): Promise<User | undefined> {
-  try {
-    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0];
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
-}
-}
 
 export const { auth, signIn, signOut, handlers: { GET, POST } } = NextAuth(authConfig);
