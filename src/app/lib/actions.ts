@@ -67,7 +67,6 @@ export async function register(prevState: string | undefined, formData: FormData
 
     try {
         const user = await saveUser({...newUser, password:hashedPassword})
-        console.log(user);
         await signIn('credentials', {
             redirectTo: "/tree",
             email: newUser.email,

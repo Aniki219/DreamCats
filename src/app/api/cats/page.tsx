@@ -2,7 +2,7 @@ import Link from "next/link"
 import { sql } from "@vercel/postgres"
 import { CatData } from "@/components/Cat";
 import { fetchCats } from "@/services/CatService";
-import CatCarousel from "../components/CatCarousel";
+import CatCarousel from "@/app/components/CatCarousel";
 
 export default async function CatsIndex() {
     const cats = await fetchCats();
