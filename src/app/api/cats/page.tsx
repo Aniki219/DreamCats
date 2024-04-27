@@ -2,11 +2,15 @@ import Link from "next/link"
 import { sql } from "@vercel/postgres"
 import { CatData } from "@/components/Cat";
 import { fetchCats } from "@/services/CatService";
+import CatCarousel from "../components/CatCarousel";
 
 export default async function CatsIndex() {
     const cats = await fetchCats();
-    
-    if (!cats) {
+
+    const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=10")
+    const catImages:{url:string}[] = await response.json();
+
+    if (!cats || !catImages) {
         return (
             <>
             <h2>Cats Index</h2>
@@ -19,13 +23,7 @@ export default async function CatsIndex() {
         return (
             <>
             <h2>Cats Index</h2>
-            <ul>
-                {cats.map((cat) => (
-                    <li>
-                        <Link href={`cats/${cat.id}`}>{cat.name}</Link>
-                    </li>
-                ))}
-            </ul>
+            <CatCarousel catList={cats} catImages={catImages}/>
             <Link href={`tree`}>Return to Tree</Link>
             </>
         )
