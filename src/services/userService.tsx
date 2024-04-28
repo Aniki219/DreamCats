@@ -1,8 +1,8 @@
-import { User } from "@/app/lib/definitions";
-import { createUser, findUserByEmail, findUserById, findUserByUsername } from "@/repos/userRepo";
+import { Tree, User } from "@/app/lib/definitions";
+import { createUser, findTreeByUserId, findUserByEmail, findUserById, findUserByUsername } from "@/repos/userRepo";
 import { NextResponse } from "next/server";
 
-export async function getUserByEmail(email: string): Promise<User | undefined> {
+export async function getUserByEmail(email: string): Promise<User> {
     const user = await findUserByEmail(email);
     return user;
 }
@@ -41,4 +41,9 @@ export async function saveUser(newUser:User) {
     } 
 
     return await createUser(newUser);
+}
+
+export async function getTreeByUserId(userId: string): Promise<Tree> {
+    const tree = await findTreeByUserId(userId);
+    return tree;
 }
