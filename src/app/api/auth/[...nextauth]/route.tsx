@@ -3,10 +3,10 @@ import Credentials from 'next-auth/providers/credentials';
 
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcryptjs';
 import type { NextAuthConfig } from 'next-auth';
 import { getUserByEmail } from '@/services/userService';
+import { User } from '@prisma/client';
  
 export const authConfig = {
   pages: {
@@ -36,7 +36,7 @@ export const authConfig = {
               const user = await getUserByEmail(email);
               if (!user) throw Error("User not found");
               const passwordsMatch = await bcrypt.compare(password, user.password);
-              if (passwordsMatch) return user as User;
+              if (passwordsMatch) return {id:user.id.toString(), name:user.username, email:user.email} as {id:string, name:string, email:string};
             }
             
             console.log('Invalid credentials');

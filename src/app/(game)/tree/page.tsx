@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import UserTree from "./tree";
 import { getTreeByUserId, getUserByEmail } from "@/services/userService";
 import { useState } from "react";
-import { User } from "@/app/lib/definitions";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
 
@@ -13,8 +12,11 @@ export default async function Tree() {
 
     if (session?.user?.email) {
        const user = await getUserByEmail(session.user.email);
+       if (!user) return (
+        <p>no user</p>
+       )
        const tree = await getTreeByUserId(user.id);
-
+       
         if (!tree) {
             return (
                 <>
@@ -27,7 +29,7 @@ export default async function Tree() {
         return (
             <>
                 <p>{user.username}</p>
-                <p>{tree?.name}</p>
+                <p>{tree.name}</p>
                 <UserTree/>
             </>
         )

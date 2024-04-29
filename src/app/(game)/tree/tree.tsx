@@ -1,6 +1,5 @@
 "use client"
 import { doSignOut } from "@/app/lib/actions";
-import { User } from "@/app/lib/definitions";
 import { RelativeLink } from "@/app/ui/RelativeLink";
 import { getUserByEmail } from "@/services/userService";
 import { useSession } from "next-auth/react";
