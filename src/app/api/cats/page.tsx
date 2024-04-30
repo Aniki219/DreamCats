@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { sql } from "@vercel/postgres"
-import { CatData } from "@/components/Cat";
 import { getCats } from "@/services/catService";
 import CatCarousel from "@/app/components/CatCarousel";
 

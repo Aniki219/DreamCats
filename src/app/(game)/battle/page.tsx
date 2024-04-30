@@ -7,38 +7,38 @@ import React, { useEffect, useRef, useState } from 'react'
 import Ability from "@/components/Ability";
 
 export default function Battle() {
-    const [enemy, setEnemy] = useState(new EnemyData(3));
+    // const [enemy, setEnemy] = useState(new EnemyData(3));
 
-    const AttackEnemy = (enemy:EnemyData, damage:number) => {
-        let {health} = enemy;
-        health-=damage
-        setEnemy({...enemy, health});
-    }
+    // const AttackEnemy = (enemy:EnemyData, damage:number) => {
+    //     let {health} = enemy;
+    //     health-=damage
+    //     setEnemy({...enemy, health});
+    // }
 
-    const GetBattleUI = () => {
-        if (enemy.health > 0) {
-            return (
-                <>
-                    <Enemy health={enemy.health} maxhealth={enemy.maxhealth}></Enemy>
-                    <Ability AttackEnemy={AttackEnemy} enemy={enemy}></Ability>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    You Win!
-                </>
-            )
-        }
-    }
+    // const GetBattleUI = () => {
+    //     if (enemy.health > 0) {
+    //         return (
+    //             <>
+    //                 <Enemy health={enemy.health} maxhealth={enemy.maxhealth}></Enemy>
+    //                 <Ability AttackEnemy={AttackEnemy} enemy={enemy}></Ability>
+    //             </>
+    //         )
+    //     } else {
+    //         return (
+    //             <>
+    //                 You Win!
+    //             </>
+    //         )
+    //     }
+    // }
 
-    return (
-        <div>
-            <h1>Battle Page</h1>
+    // return (
+    //     <div>
+    //         <h1>Battle Page</h1>
 
-            {GetBattleUI()}
+    //         {GetBattleUI()}
 
-            <Link href="tree">Back to Tree</Link>
-        </div>
-    );  
+    //         <Link href="tree">Back to Tree</Link>
+    //     </div>
+    // );  
 }

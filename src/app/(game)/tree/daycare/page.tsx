@@ -1,12 +1,12 @@
 import Link from "next/link"
 import { sql } from "@vercel/postgres"
 import { CatData } from "@/components/Cat";
-import { fetchCats } from "@/services/catService";
+import { getCats } from "@/services/catService";
 
 
 
 export default async function DayCare() {
-    const cats = await fetchCats();
+    const cats = await getCats();
 
     const catsList = () => {
         if (!cats) {
@@ -19,7 +19,7 @@ export default async function DayCare() {
             return (
                 <ul>
                     {cats.map((cat) => (
-                        <li>{cat.name}</li>
+                        <li>{cat.type}</li>
                     ))}
                 </ul>
             )
