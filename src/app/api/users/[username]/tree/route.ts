@@ -1,11 +1,12 @@
-import { getCatById } from '@/services/catService'
+
+import { getTreeByUserName } from '@/services/userService'
 import type { NextApiRequest } from 'next'
 import { NextResponse } from 'next/server'
 
 export async function GET(
   req: NextApiRequest,
-  context: {params: {id: string}}
+  context: {params: {username: string}}
 ) {
-    const data = await getCatById(context.params.id)
+    const data = await getTreeByUserName(context.params.username);
     return NextResponse.json(data)
 }

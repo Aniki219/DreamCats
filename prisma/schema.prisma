@@ -9,7 +9,7 @@ datasource db {
 
 model Cat {
   id    String         @id @default(uuid())
-  type  String      @db.VarChar(255)
+  type  String         @unique @db.VarChar(255)
   users  UserCat[]
 
   createdAt DateTime    @default(now())
@@ -28,11 +28,11 @@ model UserCat {
 }
 
 model Tree {
-  id        String         @id @default(uuid())
-  hasgarden Boolean?    @default(false)
-  name      String?     @db.VarChar(255)
+  id        String          @id @default(uuid())
+  hasgarden Boolean?        @default(false)
+  name      String?         @db.VarChar(255)
   users     User[]  
-  createdAt DateTime    @default(now())
+  createdAt DateTime        @default(now())
 
   @@map("trees")
 }

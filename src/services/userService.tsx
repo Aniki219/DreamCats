@@ -1,8 +1,13 @@
 import { UserMinimum } from "@/app/lib/definitions";
-import { createUser, findTreeByUserId, findUserByEmail, findUserById, findUserByUsername } from "@/repos/userRepo";
+import { createUser, findTreeByUserId, findTreeByUserName, findUserByEmail, findUserById, findUserByUsername, findUsers } from "@/repos/userRepo";
 import { Tree, User } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod"
+
+export async function getUsers() {
+    const user = await findUsers();
+    return user;
+}
 
 export async function getUserByEmail(email: string): Promise<User | null> {
     const user = await findUserByEmail(email);
@@ -49,5 +54,10 @@ export async function saveUser(newUser:UserMinimum) {
 
 export async function getTreeByUserId(userId: string): Promise<Tree | null> {
     const tree = await findTreeByUserId(userId);
+    return tree;
+}
+
+export async function getTreeByUserName(username: string): Promise<Tree | null> {
+    const tree = await findTreeByUserName(username);
     return tree;
 }

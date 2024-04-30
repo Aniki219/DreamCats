@@ -6,6 +6,16 @@ import email from "next-auth/providers/email";
 
 const prisma = new PrismaClient()
 
+export async function findUsers() {
+    try {
+        const user = prisma.user.findMany();
+        return user;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch user.');
+    }
+}
+
 export async function findUserById(id:string) {
     try {
         const user = prisma.user.findUnique({
@@ -76,5 +86,22 @@ export async function findTreeByUserId(userId:string) {
     } catch (error) {
         console.log(error);
         throw new Error('No Tree Found for user: ' + userId);
+    }
+}
+
+export async function findTreeByUserName(username:string) {
+    try {
+        const data = await prisma.user.findUnique({
+            where: {
+                username: username
+            },
+            select: {
+                tree: true
+            }
+        }) as {tree:Tree}
+        return data.tree;
+    } catch (error) {
+        console.log(error);
+        throw new Error('No Tree Found for username: ' + username);
     }
 }
