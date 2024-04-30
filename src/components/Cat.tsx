@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 
 export interface CatData {
-    id:number;
-    name:string;
+    id:string;
+    type:string;
 }
 
-export default function Cat({name}:CatData) {
+export default function Cat({type}:CatData) {
     return (
         <div>
-            <h2>{name}</h2>
+            <h2>{type}</h2>
         </div>
     );
 }

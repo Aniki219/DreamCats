@@ -1,9 +1,9 @@
 "use client"
-import { CatData } from "@/models/Cat";
 import { useState } from "react";
 import { circleIndex } from "../lib/utils/helpers";
 import styles from "./CatCarousel.module.css"
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { CatData } from "@/components/Cat";
 
 interface CatCarouselData {
     catList: CatData[],
@@ -22,7 +22,7 @@ export default function CatCarousel({catList, catImages}:CatCarouselData) {
         <div className={styles.carousel}>
             <div className={styles.wheel}>
                 <div className={styles.namePlate}>
-                    <h3>{catList[index].name}</h3>
+                    <h3>{catList[index].type}</h3>
                     <p><i>{catList[index].id}</i></p>
                 </div>
                 <div className={styles.thumbnail}>
