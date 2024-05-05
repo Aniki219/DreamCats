@@ -3,6 +3,7 @@
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate, register } from '../../lib/actions';
 import { Button } from '../../ui/button';
+import { useState } from 'react';
 
 export default function SignUpPage() {
     const [errorMessage, dispatch] = useFormState(register, undefined);
@@ -30,7 +31,7 @@ export default function SignUpPage() {
                         <div>
                             <input
                             id="email"
-                            type="search"
+                            type="email"
                             name="email"
                             placeholder="Enter your email address"
                             autoComplete='off'
@@ -82,6 +83,6 @@ function SignUpButton() {
     const { pending } = useFormStatus();
 
     return (
-        <Button aria-disabled={pending}>Create Account</Button>
+        <Button disabled={pending}>Create Account</Button>
     );
 }
