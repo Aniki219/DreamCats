@@ -1,12 +1,12 @@
 import { UserMinimum } from "@/app/lib/definitions";
+import { NextResponse } from "next/server";
+import { z } from "zod"
 import { PrismaClient, User, Tree, Role } from "@prisma/client";
 import email from "next-auth/providers/email";
 
-
-
 const prisma = new PrismaClient()
 
-export async function findUsers() {
+export async function getUsers() {
     try {
         const user = prisma.user.findMany();
         return user;
@@ -16,10 +16,10 @@ export async function findUsers() {
     }
 }
 
-export async function findUserById(id:string) {
+export async function getUserByEmail(email: string): Promise<User | null> {
     try {
         const user = prisma.user.findUnique({
-            where: {id: id}
+            where: { email: email }
         })
         return user;
     } catch (error) {
@@ -28,10 +28,10 @@ export async function findUserById(id:string) {
     }
 }
 
-export async function findUserByEmail(email:string) {
+export async function getUserByUsername(username: string): Promise<User | null> {
     try {
         const user = prisma.user.findUnique({
-            where: {email: email}
+            where: { username: username }
         })
         return user;
     } catch (error) {
@@ -40,10 +40,10 @@ export async function findUserByEmail(email:string) {
     }
 }
 
-export async function findUserByUsername(username:string) {
+export async function getUserById(id: string): Promise<User | null> {
     try {
         const user = prisma.user.findUnique({
-            where: {username: username}
+            where: { id: id }
         })
         return user;
     } catch (error) {
@@ -52,14 +52,38 @@ export async function findUserByUsername(username:string) {
     }
 }
 
-export async function createUser(minUser:UserMinimum) {
+export async function saveUser(newUser: UserMinimum) {
+    if (!newUser.username) {
+        throw new NextResponse('Missing Field: Username', { status: 400 })
+    } else {
+        const existingUser = await getUserByUsername(newUser.username);
+        if (existingUser) {
+            throw new NextResponse('Username Taken', { status: 400 });
+        }
+    }
+
+    if (!newUser.email) {
+        throw new NextResponse('Missing Field: Email', { status: 400 })
+    } else if (!z.object({ email: z.string().email() }).safeParse(newUser).success) {
+        throw new NextResponse('Invalid Email', { status: 400 })
+    } else {
+        const existingUser = await getUserByEmail(newUser.email);
+        if (existingUser) {
+            throw new NextResponse('Email already associated with an existing account', { status: 400 });
+        }
+    }
+
+    if (!newUser.password) {
+        throw new NextResponse('Missing Field: Password', { status: 400 })
+    }
+
     try {
         const user = prisma.user.create({
             data: {
-                ...minUser,
+                ...newUser,
                 tree: {
                     create: {
-                        name: minUser.username +"'s tree",
+                        name: newUser.username + "'s tree",
                     }
                 },
                 roles: [Role.USER]
@@ -72,7 +96,7 @@ export async function createUser(minUser:UserMinimum) {
     }
 }
 
-export async function findTreeByUserId(userId:string) {
+export async function getTreeByUserId(userId: string): Promise<Tree | null> {
     try {
         const data = await prisma.user.findUnique({
             where: {
@@ -81,7 +105,7 @@ export async function findTreeByUserId(userId:string) {
             select: {
                 tree: true
             }
-        }) as {tree:Tree}
+        }) as { tree: Tree }
         return data.tree;
     } catch (error) {
         console.log(error);
@@ -89,7 +113,7 @@ export async function findTreeByUserId(userId:string) {
     }
 }
 
-export async function findTreeByUserName(username:string) {
+export async function getTreeByUserName(username: string): Promise<Tree | null> {
     try {
         const data = await prisma.user.findUnique({
             where: {
@@ -98,7 +122,7 @@ export async function findTreeByUserName(username:string) {
             select: {
                 tree: true
             }
-        }) as {tree:Tree}
+        }) as { tree: Tree }
         return data.tree;
     } catch (error) {
         console.log(error);

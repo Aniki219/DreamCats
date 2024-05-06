@@ -13,11 +13,13 @@ import { getUserByEmail, getUserByUsername, saveUser } from '@/services/userServ
 import { NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs'
 import { Role } from '@prisma/client';
+import { CatMinimum } from './definitions';
+import { upsertCat } from '@/services/catService';
 
 
 export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
+    prevState: string | undefined,
+    formData: FormData,
 ) {
     try {
         await signIn('credentials', {
@@ -32,10 +34,10 @@ export async function authenticate(
 
         if (error instanceof AuthError) {
             switch (error.type) {
-            case 'CredentialsSignin':
-                return 'Invalid credentials.';
-            default:
-                return 'Something went wrong.';
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
             }
         }
         throw error;
@@ -65,7 +67,7 @@ export async function register(prevState: string | undefined, formData: FormData
     const hashedPassword = await bcryptjs.hash(newUser.password, 10);
 
     try {
-        await saveUser({...newUser, password:hashedPassword})
+        await saveUser({ ...newUser, password: hashedPassword })
         redirect(`/account_created`)
     } catch (error) {
         if (isRedirectError(error)) {
@@ -74,13 +76,19 @@ export async function register(prevState: string | undefined, formData: FormData
 
         if (error instanceof AuthError) {
             switch (error.type) {
-            case 'CredentialsSignin':
-                return 'Invalid credentials.';
-            default:
-                return 'Something went wrong.';
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
             }
         }
 
         throw error;
+    }
+}
+
+export async function upsertCats(catData: CatMinimum[]) {
+    for (const data of catData) {
+        await upsertCat(data);
     }
 }
