@@ -1,0 +1,57 @@
+.dashboard table {
+    font: menu;
+    font-size: larger;
+    text-align: right;
+    overflow: auto;
+}
+
+.dashboard thead {
+    color: white;
+    background-color: cornflowerblue;
+}
+
+.dashboard tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+.dashboard td {
+    padding: 0 10px;
+    border: 1px solid gray;
+}
+
+.dashboard th {
+    white-space: nowrap;
+    padding: 0 15px;
+    border: 1px solid rgb(84, 106, 167);
+}
+
+.dashboard td:first-child,
+.dashboard th:first-child {
+    padding-left: 0;
+    background: white;
+    text-align: left;
+    border: none;
+}
+
+.dashboard button {
+    padding: 10px;
+    font-size: larger;
+    border-radius: 10px;
+    border-color: #2196F3;
+    border-style: outset;
+    background-color: cornflowerblue;
+    color: white;
+    margin-left: 30px;
+}
+
+.dashboard button:hover {
+    border-color: #2196F3;
+    background-color: rgb(86, 128, 207);
+    cursor: pointer;
+}
+
+.dashboard button:active {
+    border-color: #e4f3ff;
+    background-color: rgb(78, 117, 192);
+    cursor: pointer;
+}

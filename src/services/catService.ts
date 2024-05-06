@@ -111,7 +111,10 @@ export async function getCatGoogleSheetData() {
 
     const catsTableRows = rawSheetRowValues?.values as string[][];
     const headers = catsTableRows[0];
-    const records = catsTableRows.slice(1);
+    const records =
+        catsTableRows
+            .slice(1)
+            .filter(row => row[0]);
 
     const catDataMaps = records.map((record, i) => {
         const cat = new Map<string, string | number>()
