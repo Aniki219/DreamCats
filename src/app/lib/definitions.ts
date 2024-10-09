@@ -5,7 +5,7 @@ export type UserMinimum = {
 };
 
 export type CatMinimum = {
-    type: string;
+    species: string;
     strength: number;
     defense: number;
     magicDefense: number;

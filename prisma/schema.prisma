@@ -9,7 +9,8 @@ datasource db {
 
 model Cat {
     id           String @id @default(uuid())
-    type         String @unique @db.VarChar(255)
+    species         String @unique @db.VarChar(255)
+    attributes Attributes[]
     strength     Int
     defense      Int
     magicDefense Int
@@ -26,6 +27,12 @@ model Cat {
     @@map("cats")
 }
 
+enum Attributes {
+    AQUATIC
+    MISCHIEVOUS
+    SPEEDY
+}
+
 model UserCat {
     user   User    @relation(fields: [userId], references: [id])
     userId String
@@ -33,7 +40,47 @@ model UserCat {
     catId  String
     name   String?
 
+    nestId String?
+    nest Nest? @relation(fields: [nestId], references: [id])
+
     @@id([userId, catId])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Egg {
+    id String @id @default(uuid())
+    nest Nest?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Hatchery {
+    id String @id @default(uuid())
+
+    treeId String @unique
+    tree Tree @relation(fields: [treeId], references: [id])
+
+    nests Nest[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Nest {
+    id String @id @default(uuid())
+    hatcheryId String
+    hatchery Hatchery @relation(fields: [hatcheryId], references: [id])
+
+    eggId String? @unique
+    egg Egg? @relation(fields: [eggId], references: [id])
+
+    hatchers UserCat[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Tree {
@@ -42,6 +89,9 @@ model Tree {
     name      String?  @db.VarChar(255)
     users     User[]
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    hatchery Hatchery?
 
     @@map("trees")
 }
@@ -55,8 +105,10 @@ model User {
     treeId    String?
     roles     Role[]   @default([USER])
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     cats UserCat[]
+    inventory UserItems[]
 
     @@map("users")
 }
@@ -64,4 +116,28 @@ model User {
 enum Role {
     USER
     ADMIN
+}
+
+model Item {
+    id String @id @default(uuid())
+    type String
+    description String
+    users UserItems[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model UserItems {
+    userId String
+    itemId String
+    user User @relation(fields: [userId], references: [id])
+    item Item @relation(fields: [itemId], references: [id])
+
+    quantity Int @default(0)
+
+    @@id([userId, itemId])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

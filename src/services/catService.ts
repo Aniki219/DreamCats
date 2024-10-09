@@ -27,28 +27,10 @@ export async function getCatById(id: string) {
     }
 }
 
-export async function getEntity(entity: EntitySearchObject) {
-    try {
-        const cat = prisma.cat.findFirst({
-            where: {
-                OR:
-                    [
-                        entity.id ? { id: entity.id as string } : {},
-                        entity.type ? { type: entity.type as string } : {}
-                    ]
-            }
-        })
-        return cat;
-    } catch (error) {
-        console.log(error);
-        throw new Error('Failed to fetch cat.');
-    }
-}
-
-export async function getCatByType(type: string) {
+export async function getCatBySpecies(species: string) {
     try {
         const cat = prisma.cat.findUnique({
-            where: { type: type }
+            where: { species: species }
         })
         return cat;
     } catch (error) {
@@ -61,7 +43,7 @@ export async function upsertCat(cat: CatMinimum) {
     try {
         const upsertCat = await prisma.cat.upsert({
             where: {
-                type: cat.type,
+                species: cat.species,
             },
             update: {
                 strength: cat.strength,
@@ -73,7 +55,7 @@ export async function upsertCat(cat: CatMinimum) {
                 mana: cat.mana,
             },
             create: {
-                type: cat.type,
+                species: cat.species,
                 strength: cat.strength,
                 defense: cat.defense,
                 magicDefense: cat.magicDefense,
@@ -128,7 +110,7 @@ export async function getCatGoogleSheetData() {
 
     const cats = catDataMaps.map(data => {
         return {
-            type: data.get("type") as string,
+            species: data.get("species") as string,
             strength: parseInt(data.get("strength") as string),
             defense: parseInt(data.get("defense") as string),
             intelligence: parseInt(data.get("intelligence") as string),

@@ -1,7 +1,8 @@
-import { Role } from '@prisma/client'
+import { Attributes, Role } from '@prisma/client'
 import { ParseArgsConfig, parseArgs } from 'node:util'
 import bcryptjs from 'bcryptjs'
 import { PrismaClient } from '@prisma/client';
+import { upsertCat } from '@/services/catService';
 
 const prisma = new PrismaClient();
 
@@ -31,20 +32,54 @@ async function main() {
                     roles: [Role.ADMIN, Role.USER]
                 },
             })
-            const wrench = await prisma.cat.upsert({
-                where: { type: 'seedcat' },
-                update: {},
-                create: {
-                    type: "seedcat",
-                    strength: 10,
-                    defense: 12,
-                    magicDefense: 15,
-                    intelligence: 8,
-                    speed: 10,
-                    health: 30,
-                    mana: 25
-                }
-            })
+            const otterpun = {
+                species: "otterpun",
+                attributes: [Attributes.AQUATIC, Attributes.MISCHIEVOUS],
+                strength: 10,
+                defense: 12,
+                magicDefense: 15,
+                intelligence: 8,
+                speed: 10,
+                health: 30,
+                mana: 25
+            }
+            const quickat = {
+                species: "quickat",
+                attributes: [Attributes.SPEEDY],
+                strength: 10,
+                defense: 12,
+                magicDefense: 15,
+                intelligence: 8,
+                speed: 20,
+                health: 20,
+                mana: 25
+            }
+            const mercat = {
+                species: "mercat",
+                attributes: [Attributes.AQUATIC, Attributes.SPEEDY],
+                strength: 10,
+                defense: 12,
+                magicDefense: 15,
+                intelligence: 8,
+                speed: 10,
+                health: 30,
+                mana: 25
+            }
+            const jellyfel = {
+                species: "jellyfel",
+                attributes: [Attributes.AQUATIC, Attributes.SPEEDY, Attributes.MISCHIEVOUS],
+                strength: 10,
+                defense: 12,
+                magicDefense: 15,
+                intelligence: 8,
+                speed: 10,
+                health: 30,
+                mana: 25
+            }
+            upsertCat(otterpun);
+            upsertCat(quickat);
+            upsertCat(mercat);
+            upsertCat(jellyfel);
             break
         case 'test':
             /** data for your test environment */
