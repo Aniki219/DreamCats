@@ -14,7 +14,7 @@ import { NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs'
 import { Role } from '@prisma/client';
 import { CatMinimum } from './definitions';
-import { upsertCat } from '@/services/catService';
+import { createCat } from '@/services/catService';
 
 
 export async function authenticate(
@@ -89,6 +89,6 @@ export async function register(prevState: string | undefined, formData: FormData
 
 export async function upsertCats(catData: CatMinimum[]) {
     for (const data of catData) {
-        await upsertCat(data);
+        await createCat(data);
     }
 }

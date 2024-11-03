@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import { getAuthToken, getSpreadSheet, getSpreadSheetValues } from '@/services/googleSheetsService'
 import { CatData } from '@/components/Cat';
 import { CatMinimum } from '@/app/lib/definitions';
-import { getCats, upsertCat } from '@/services/catService';
+import { getCats, createCat } from '@/services/catService';
 
 export async function GET(
     req: NextApiRequest,

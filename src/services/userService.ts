@@ -1,7 +1,7 @@
 import { UserMinimum } from "@/app/lib/definitions";
 import { NextResponse } from "next/server";
 import { z } from "zod"
-import { PrismaClient, User, Tree, Role } from "@prisma/client";
+import { PrismaClient, User, Tree, Role, Prisma } from "@prisma/client";
 import email from "next-auth/providers/email";
 
 const prisma = new PrismaClient()
@@ -52,7 +52,7 @@ export async function getUserById(id: string): Promise<User | null> {
     }
 }
 
-export async function saveUser(newUser: UserMinimum) {
+export async function saveUser(newUser: Prisma.UserUncheckedCreateInput) {
     if (!newUser.username) {
         throw new NextResponse('Missing Field: Username', { status: 400 })
     } else {
@@ -80,13 +80,15 @@ export async function saveUser(newUser: UserMinimum) {
     try {
         const user = prisma.user.create({
             data: {
-                ...newUser,
+                username: newUser.username,
+                email: newUser.email,
+                password: newUser.password,
                 tree: {
                     create: {
                         name: newUser.username + "'s tree",
                     }
                 },
-                roles: [Role.USER]
+                roles: newUser.roles || [Role.USER],
             }
         })
         return user;

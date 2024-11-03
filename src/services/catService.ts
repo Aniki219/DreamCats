@@ -5,9 +5,9 @@ import { getAuthToken, getSpreadSheetValues } from "./googleSheetsService";
 
 const prisma = new PrismaClient()
 
-export async function getCats() {
+export async function getCats(): Promise<Cat[]> {
     try {
-        const cats = prisma.cat.findMany()
+        const cats = await prisma.cat.findMany() as Cat[];
         return cats;
     } catch (error) {
         console.log(error);
@@ -39,33 +39,33 @@ export async function getCatBySpecies(species: string) {
     }
 }
 
-export async function upsertCat(cat: CatMinimum) {
+export async function createCat(data: CatMinimum): Promise<Cat> {
     try {
-        const upsertCat = await prisma.cat.upsert({
+        const cat: Cat = await prisma.cat.upsert({
             where: {
-                species: cat.species,
+                species: data.species,
             },
             update: {
-                strength: cat.strength,
-                defense: cat.defense,
-                magicDefense: cat.magicDefense,
-                intelligence: cat.intelligence,
-                speed: cat.speed,
-                health: cat.health,
-                mana: cat.mana,
+                strength: data.strength,
+                defense: data.defense,
+                magicDefense: data.magicDefense,
+                intelligence: data.intelligence,
+                speed: data.speed,
+                health: data.health,
+                mana: data.mana,
             },
             create: {
-                species: cat.species,
-                strength: cat.strength,
-                defense: cat.defense,
-                magicDefense: cat.magicDefense,
-                intelligence: cat.intelligence,
-                speed: cat.speed,
-                health: cat.health,
-                mana: cat.mana,
+                species: data.species,
+                strength: data.strength,
+                defense: data.defense,
+                magicDefense: data.magicDefense,
+                intelligence: data.intelligence,
+                speed: data.speed,
+                health: data.health,
+                mana: data.mana,
             },
-        })
-        return upsertCat;
+        }) as Cat;
+        return cat;
     } catch (e) {
         console.log(e);
         throw new Error("Failed to upsert cat");
@@ -74,7 +74,7 @@ export async function upsertCat(cat: CatMinimum) {
 
 export async function getCatGoogleSheetData() {
     const spreadsheetId = process.env.CAT_DATA_SS_ID as string;
-    const sheetName = "Sheet1";
+    const sheetName = "CatData";
 
     async function testGetSpreadSheetValues() {
         try {

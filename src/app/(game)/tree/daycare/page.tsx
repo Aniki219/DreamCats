@@ -19,13 +19,13 @@ export default async function DayCare() {
             return (
                 <ul>
                     {cats.map((cat) => (
-                        <li>{cat.type}</li>
+                        <li>{cat.species}</li>
                     ))}
                 </ul>
             )
         }
     }
-    
+
     return (
         <div>
             <h2>Daycare</h2>
