@@ -2,7 +2,7 @@ import { Attributes, Prisma, Role } from '@prisma/client'
 import { ParseArgsConfig, parseArgs } from 'node:util'
 import bcryptjs from 'bcryptjs'
 import { PrismaClient } from '@prisma/client';
-import { createCat } from '@/services/catService';
+import { createCat, getCatGoogleSheetData, getCats } from '@/services/catService';
 import { createUserCat } from '@/services/userCatService';
 import { User } from 'next-auth';
 import { createEgg } from '@/services/eggService';
@@ -35,57 +35,22 @@ async function main() {
 
             const tree = await getTreeById(AtlasMoth.treeId!);
 
-            const otterpunInput = {
-                species: "otterpun",
-                attributes: [Attributes.AQUATIC, Attributes.MISCHIEVOUS],
-                strength: 10,
-                defense: 12,
-                magicDefense: 15,
-                intelligence: 8,
-                speed: 10,
-                health: 30,
-                mana: 25
-            }
-            const quickat = {
-                species: "quickat",
-                attributes: [Attributes.SPEEDY],
-                strength: 10,
-                defense: 12,
-                magicDefense: 15,
-                intelligence: 8,
-                speed: 20,
-                health: 20,
-                mana: 25
-            }
-            const mercat = {
-                species: "mercat",
-                attributes: [Attributes.AQUATIC, Attributes.SPEEDY],
-                strength: 10,
-                defense: 12,
-                magicDefense: 15,
-                intelligence: 8,
-                speed: 10,
-                health: 30,
-                mana: 25
-            }
-            const jellyfel = {
-                species: "jellyfel",
-                attributes: [Attributes.AQUATIC, Attributes.SPEEDY, Attributes.MISCHIEVOUS],
-                strength: 10,
-                defense: 12,
-                magicDefense: 15,
-                intelligence: 8,
-                speed: 10,
-                health: 30,
-                mana: 25
-            }
-            const otterpun = await createCat(otterpunInput);
-            createCat(quickat);
-            createCat(mercat);
-            createCat(jellyfel);
+            const catData = await getCatGoogleSheetData();
+            await prisma.cat.createMany({
+                data: catData
+            })
 
-            const myOtterpun = await createUserCat({ name: "My Otterpun", userId: AtlasMoth.id!, catId: otterpun.id });
-            const egg = await createEgg({ parentUserId: myOtterpun.userId, parentCatId: myOtterpun.catId });
+            const cats = await getCats();
+
+            const myCat = await createUserCat({ user: AtlasMoth, cat: cats[0] });
+
+            if (cats.length >= 4) {
+                await createUserCat({ user: AtlasMoth, cat: cats[1] });
+                await createUserCat({ user: AtlasMoth, cat: cats[2] });
+                await createUserCat({ user: AtlasMoth, cat: cats[3] });
+            }
+
+            const egg = await createEgg({ parentUserId: myCat.userId, parentCatId: myCat.catId });
 
             const hatchery = await createHatchery(tree!.id);
             const nests = await getNestsByHatcheryId(hatchery.id);

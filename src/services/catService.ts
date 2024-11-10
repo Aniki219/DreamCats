@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, Cat } from "@prisma/client";
+import { PrismaClient, Cat, Prisma } from "@prisma/client";
 import { CatMinimum, EntitySearchObject } from "@/app/lib/definitions";
 import { getAuthToken, getSpreadSheetValues } from "./googleSheetsService";
 
@@ -52,7 +52,6 @@ export async function createCat(data: CatMinimum): Promise<Cat> {
                 intelligence: data.intelligence,
                 speed: data.speed,
                 health: data.health,
-                mana: data.mana,
             },
             create: {
                 species: data.species,
@@ -62,7 +61,6 @@ export async function createCat(data: CatMinimum): Promise<Cat> {
                 intelligence: data.intelligence,
                 speed: data.speed,
                 health: data.health,
-                mana: data.mana,
             },
         }) as Cat;
         return cat;
@@ -111,14 +109,14 @@ export async function getCatGoogleSheetData() {
     const cats = catDataMaps.map(data => {
         return {
             species: data.get("species") as string,
-            strength: parseInt(data.get("strength") as string),
-            defense: parseInt(data.get("defense") as string),
-            intelligence: parseInt(data.get("intelligence") as string),
-            magicDefense: parseInt(data.get("magic resist") as string),
-            health: parseInt(data.get("health") as string),
-            mana: parseInt(data.get("mana") as string),
-            speed: parseInt(data.get("speed") as string),
-        } as CatMinimum
+            strength: data.get("strength") as string,
+            defense: data.get("defense") as string,
+            intelligence: data.get("intelligence") as string,
+            magicDefense: data.get("magic resist") as string,
+            health: data.get("health") as string,
+            speed: data.get("speed") as string,
+            attributes: data.get("attributes"),
+        } as Prisma.CatCreateManyInput
     })
 
     return cats;

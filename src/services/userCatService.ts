@@ -2,21 +2,21 @@ import { Cat, Prisma, PrismaClient, User, UserCat } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createUserCat(input: Prisma.UserCatUncheckedCreateInput) {
+export async function createUserCat({ user, cat, name }: { user: User, cat: Cat, name?: string }) {
     try {
         const newUserCat = prisma.userCat.create({
             data: {
                 user: {
                     connect: {
-                        id: input.userId
+                        id: user.id
                     }
                 },
                 cat: {
                     connect: {
-                        id: input.catId
+                        id: cat.id
                     }
                 },
-                name: input.name,
+                name: name || cat.species,
             }
         })
         return newUserCat;

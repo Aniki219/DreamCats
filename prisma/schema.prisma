@@ -8,21 +8,38 @@ datasource db {
 }
 
 model Cat {
-    id           String       @id @default(uuid())
-    species      String       @unique @db.VarChar(255)
-    attributes   Attributes[]
-    strength     Int
-    defense      Int
-    magicDefense Int
-    intelligence Int
-    speed        Int
-    health       Int
-    mana         Int
-    createdAt    DateTime     @default(now())
-    updatedAt    DateTime     @default(now())
+    id           String         @id @default(uuid())
+    species      String         @unique @db.VarChar(255)
+    attributes   CatAttribute[]
+    strength     String
+    defense      String
+    magicDefense String
+    intelligence String
+    speed        String
+    health       String
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @default(now())
     users        UserCat[]
 
     @@map("cats")
+}
+
+model Attribute {
+    name String         @id
+    cats CatAttribute[]
+}
+
+model CatAttribute {
+    attributeId String
+    catId       String
+
+    cat       Cat       @relation(fields: [catId], references: [id])
+    attribute Attribute @relation(fields: [attributeId], references: [name])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([attributeId, catId], name: "attributeCatId")
 }
 
 model UserCat {
@@ -121,12 +138,6 @@ model UserItems {
     user      User     @relation(fields: [userId], references: [id])
 
     @@id([userId, itemId])
-}
-
-enum Attributes {
-    AQUATIC
-    MISCHIEVOUS
-    SPEEDY
 }
 
 enum Role {

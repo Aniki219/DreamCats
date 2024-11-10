@@ -6,13 +6,12 @@ export type UserMinimum = {
 
 export type CatMinimum = {
     species: string;
-    strength: number;
-    defense: number;
-    magicDefense: number;
-    intelligence: number;
-    speed: number;
-    health: number;
-    mana: number;
+    strength: string;
+    defense: string;
+    magicDefense: string;
+    intelligence: string;
+    speed: string;
+    health: string;
 };
 
 // export type Tree = {

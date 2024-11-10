@@ -44,14 +44,13 @@ export async function GET(
 
     const cats = catDataMaps.map(data => {
         return {
-            type: data.get("type") as string,
-            strength: parseInt(data.get("strength") as string),
-            defense: parseInt(data.get("defense") as string),
-            intelligence: parseInt(data.get("intelligence") as string),
-            magicDefense: parseInt(data.get("magic resist") as string),
-            health: parseInt(data.get("health") as string),
-            mana: parseInt(data.get("mana") as string),
-            speed: parseInt(data.get("speed") as string),
+            species: data.get("species") as string,
+            strength: (data.get("strength") as string),
+            defense: (data.get("defense") as string),
+            intelligence: (data.get("intelligence") as string),
+            magicDefense: (data.get("magic resist") as string),
+            health: (data.get("health") as string),
+            speed: (data.get("speed") as string),
         } as CatMinimum
     })
 

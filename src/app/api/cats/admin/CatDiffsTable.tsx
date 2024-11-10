@@ -1,6 +1,7 @@
 "use client"
 import { upsertCats } from "@/app/lib/actions";
 import { CatMinimum } from "@/app/lib/definitions";
+import { parseGradeAsInt } from "@/app/lib/utils/helpers";
 import { Button } from "@/app/ui/button";
 import { useState } from "react";
 
@@ -16,7 +17,7 @@ export default function CatDiffsTable(typesToCatMinimums: { old: Map<string, Cat
         });
     }
 
-    const getStatDiff = (newStat: number | undefined, oldStat: number | undefined) => {
+    const getStatDiff = (newStat: string | undefined, oldStat: string | undefined) => {
         if (!oldStat) {
             return (<>
                 {newStat}
@@ -28,7 +29,7 @@ export default function CatDiffsTable(typesToCatMinimums: { old: Map<string, Cat
             </>)
         }
 
-        const val = newStat - oldStat;
+        const val = parseGradeAsInt(newStat) - parseGradeAsInt(oldStat);
         if (val === 0) {
             return <>{newStat}</>;
         }
@@ -46,9 +47,8 @@ export default function CatDiffsTable(typesToCatMinimums: { old: Map<string, Cat
                 <thead>
                     <tr key={"header"}>
                         <th key={201}></th>
-                        <th key={200}>Type</th>
+                        <th key={200}>Species</th>
                         <th key={210}>Health</th>
-                        <th key={220}>Mana</th>
                         <th key={230}>Strength</th>
                         <th key={240}>Defense</th>
                         <th key={250}>Intelligence</th>
@@ -82,9 +82,6 @@ export default function CatDiffsTable(typesToCatMinimums: { old: Map<string, Cat
                                             <td key={`data-${k + 0}`}>{type}</td>
                                             <td key={`data-${k + 1}`}>
                                                 {getStatDiff(newCat?.health, oldCat?.health)}
-                                            </td>
-                                            <td key={`data-${k + 2}`}>
-                                                {getStatDiff(newCat?.mana, oldCat?.mana)}
                                             </td>
                                             <td key={`data-${k + 3}`}>
                                                 {getStatDiff(newCat?.strength, oldCat?.strength)}
