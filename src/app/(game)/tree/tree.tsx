@@ -13,6 +13,7 @@ export default function UserTree() {
             <ul>
                 <li><RelativeLink href="/daycare">Daycare</RelativeLink></li>
                 <li><RelativeLink href="/cafe">Cafe</RelativeLink></li>
+                <li><RelativeLink href="/hatchery">Hatchery</RelativeLink></li>
                 <li><Link href="battle">Battle</Link></li>
                 <li><Link href="api/cats">Cats Index</Link></li>
             </ul>
