@@ -9,15 +9,6 @@ export default function UserTree() {
     return (
         <>
             <h2>Welcome to the tree</h2>
-            <p>Select a destination to explore</p>
-            <ul>
-                <li><RelativeLink href="/daycare">Daycare</RelativeLink></li>
-                <li><RelativeLink href="/cafe">Cafe</RelativeLink></li>
-                <li><RelativeLink href="/hatchery">Hatchery</RelativeLink></li>
-                <li><Link href="battle">Battle</Link></li>
-                <li><Link href="api/cats">Cats Index</Link></li>
-            </ul>
-            <button onClick={() => doSignOut()}>Sign Out</button>
         </>
     )
 }
