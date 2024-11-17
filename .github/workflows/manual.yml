@@ -9,9 +9,12 @@ jobs:
     steps:
       - name: Set Branch Name
         id: set-branch-name
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           # Generate a dynamic branch name based on issue name
-          branch_name="issue-${issue_number}"
+          sanitized_title=$(echo "$ISSUE_TITLE" | sed 's/-.*//')
+          branch_name="${sanitized_title}"
           echo "::set-output name=branch_name::$branch_name"
       - name: Checkout Repository
         uses: actions/checkout@v2
