@@ -1,10 +1,11 @@
 "use client"
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
 import { doSignOut } from "@/app/lib/actions";
 import { ChevronUp, User2 } from "lucide-react";
 import { User } from "next-auth";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export default function AppSidebarFooter({ user }: { user: User }) {
     return (

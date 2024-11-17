@@ -37,7 +37,7 @@ export const authConfig = {
                     const user = await getUserByEmail(email);
                     if (!user) throw Error("User not found");
                     const passwordsMatch = await bcrypt.compare(password, user.password);
-                    if (passwordsMatch) return { id: user.id.toString(), name: user.username, email: user.email } as { id: string, name: string, email: string };
+                    if (passwordsMatch) return user; //{ id: user.id.toString(), name: user.username, email: user.email } as { id: string, name: string, email: string };
                 }
 
                 console.log('Invalid credentials');
