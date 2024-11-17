@@ -1,0 +1,23 @@
+name: Create Dynamic Branch on New Issue
+on:
+  issues:
+    types: [opened]
+jobs:
+  create-branch:
+    name: "Create Dynamic Branch"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Branch Name
+        id: set-branch-name
+        run: |
+          # Generate a dynamic branch name based on issue name
+          branch_name="issue-${issue_number}"
+          echo "::set-output name=branch_name::$branch_name"
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Create Branch
+        run: |
+          # Retrieve the branch name from the previous step's output
+          branch_name=${{ steps.set-branch-name.outputs.branch_name }}
+          git checkout -b $branch_name
+          git push --set-upstream origin $branch_name
