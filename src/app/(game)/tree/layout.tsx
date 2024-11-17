@@ -1,12 +1,18 @@
+import { AppSidebar } from "@/components/AppSidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+
 export default function NavbarLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
     return (
-        <>
-            <h1>Nav Layout</h1>
-            <section>{children}</section>
-        </>
+        <SidebarProvider>
+            <AppSidebar />
+            <main>
+                <SidebarTrigger />
+                {children}
+            </main>
+        </SidebarProvider>
     )
 }

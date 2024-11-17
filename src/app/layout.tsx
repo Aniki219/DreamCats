@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./output.css";
 
 import Provider from "./context/AuthContext";
+import { auth } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dream Cats",
+    title: "Dream Cats",
 };
 
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-        
-        <body className={inter.className}>
-            <Provider>
-                {children}
-            </Provider>
-        </body>
-    </html>
-  );
+    const session = await auth();
+
+    return (
+        <html lang="en">
+            <body className={inter.className}>
+                <Provider session={session!}>
+                    {children}
+                </Provider>
+            </body>
+        </html>
+    );
 }

@@ -11,12 +11,12 @@ export default async function Tree() {
     const session = await auth();
 
     if (session?.user?.email) {
-       const user = await getUserByEmail(session.user.email);
-       if (!user) return (
-        <p>no user</p>
-       )
-       const tree = await getTreeByUserId(user.id);
-       
+        const user = await getUserByEmail(session.user.email);
+        if (!user) return (
+            <p>no user</p>
+        )
+        const tree = await getTreeByUserId(user.id);
+
         if (!tree) {
             return (
                 <>
@@ -25,12 +25,12 @@ export default async function Tree() {
                 </>
             )
         }
-    
+
         return (
             <>
-                <p>{user.username}</p>
+                {/* <p>{user.username}</p> */}
                 <p>{tree.name}</p>
-                <UserTree/>
+                <UserTree />
             </>
         )
     }
