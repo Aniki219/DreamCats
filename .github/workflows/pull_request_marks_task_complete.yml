@@ -1,0 +1,25 @@
+# This is a basic workflow that is manually triggered
+
+name: Pull Request Marks Task Complete
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  post_request:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make POST request
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+          API_TOKEN: 'pk_81349861_96BIIKNWAI9BPOJ92XCEGV19D1AOKZVQ'
+        run: |
+          task_id=$(echo "$BRANCH_NAME" | sed 's/-.*//')
+          curl --location 'https://api.clickup.com/api/v2/task/${task_id}' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: ${API_TOKEN}' \
+          --data '{
+              "status": "complete"
+          }'
