@@ -19,7 +19,7 @@ jobs:
           task_id=$(echo "$BRANCH_NAME" | sed 's/-.*//')
           curl --location "https://api.clickup.com/api/v2/task/${task_id}" \
           --header 'Content-Type: application/json' \
-          --header 'Authorization: ${API_TOKEN}' \
+          --header "Authorization: ${API_TOKEN}" \
           --data '{
               "status": "complete"
           }'
