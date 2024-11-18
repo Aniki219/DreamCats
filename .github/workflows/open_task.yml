@@ -1,0 +1,42 @@
+name: Open Task
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: "The task id for the corresponding task in Click Up"
+        required: true
+        
+jobs:
+  open_task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Task Status
+        env:
+          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
+        run: |
+          curl --location "https://api.clickup.com/api/v2/task/ ${{ github.event.inputs.task_id }}" \
+          --header 'Content-Type: application/json' \
+          --header "Authorization: ${API_TOKEN}" \
+          --data '{
+              "status":"in progress"
+          }'
+          
+      - name: Update Task GitHub Link
+        env:
+          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
+        run: |
+          curl --location "https://api.clickup.com/api/v2/task/ ${{ github.event.inputs.task_id }}/field/09619d65-23ce-4c38-ab24-c11f8bdcee71" \
+          --header 'Content-Type: application/json' \
+          --header "Authorization: ${API_TOKEN}" \
+          --data '{
+              "value":"https://github.com/Aniki219/DreamCats/${{github.event.inputs.task_id}}"
+          }'
+          
+  switch_to_branch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository and specific branch
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.task_id }}
