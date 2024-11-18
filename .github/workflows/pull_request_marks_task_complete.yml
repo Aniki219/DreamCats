@@ -14,12 +14,12 @@ jobs:
       - name: Make POST request
         env:
           BRANCH_NAME: ${{ github.head_ref }}
-          API_TOKEN: "pk_81349861_96BIIKNWAI9BPOJ92XCEGV19D1AOKZVQ"
+          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
         run: |
           task_id=$(echo "$BRANCH_NAME" | sed 's/-.*//')
-          curl --location --request PUT 'https://api.clickup.com/api/v2/task/868avrrtb' \
+          curl --location --request PUT "https://api.clickup.com/api/v2/task/${task_id}" \
           --header 'Content-Type: application/json' \
-          --header 'Authorization: pk_81349861_96BIIKNWAI9BPOJ92XCEGV19D1AOKZVQ' \
+          --header "Authorization: ${API_TOKEN}" \
           --data '{
               "status":"complete"
           }'
