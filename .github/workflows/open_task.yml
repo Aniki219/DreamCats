@@ -11,6 +11,16 @@ jobs:
   open_task:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Create a new branch with task_id
+        env:
+          TASK_ID: ${{ github.event.inputs.task_id }}
+        run: |
+          git checkout -b "$TASK_ID"
+          git push origin "$TASK_ID"
+          
       - name: Update Task Status in ClickUp
         env:
           TASK_ID: ${{ github.event.inputs.task_id }}
