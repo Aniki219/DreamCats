@@ -13,9 +13,10 @@ jobs:
     steps:
       - name: Update Task Status
         env:
+          TASK_ID: ${{github.event.inputs.task_id}}
           API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
         run: |
-          curl --location "https://api.clickup.com/api/v2/task/ ${{ github.event.inputs.task_id }}" \
+          curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" \
           --header 'Content-Type: application/json' \
           --header "Authorization: ${API_TOKEN}" \
           --data '{
@@ -24,13 +25,14 @@ jobs:
           
       - name: Update Task GitHub Link
         env:
+          TASK_ID: ${{github.event.inputs.task_id}}
           API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
         run: |
-          curl --location "https://api.clickup.com/api/v2/task/${{github.event.inputs.task_id}}/field/09619d65-23ce-4c38-ab24-c11f8bdcee71" \
+          curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}/field/09619d65-23ce-4c38-ab24-c11f8bdcee71" \
           --header 'Content-Type: application/json' \
           --header "Authorization: ${API_TOKEN}" \
           --data '{
-              "value":"https://github.com/Aniki219/DreamCats/${{github.event.inputs.task_id}}"
+              "value":"https://github.com/Aniki219/DreamCats/tree/${TASK_ID}"
           }'
           
   switch_to_branch:
