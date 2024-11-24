@@ -22,6 +22,8 @@ jobs:
             response=$(curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" \
             --header "Authorization: ${API_TOKEN}")
             echo "task_data=$response" >> "$GITHUB_OUTPUT"
+            echo "hi "
+            echo "$response"
 
   open_task:
     needs: get_task_details
