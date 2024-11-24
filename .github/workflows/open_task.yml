@@ -29,12 +29,11 @@ jobs:
     steps:
         - name: Say Details
           env:
-            TASK_DATA: ${{ needs.get_task_details.outputs.task_data }}
+            TASK_DATA: ${{ fromJSON(needs.get_task_details.outputs.task_data) }}
           run: |
             echo "$TASK_DATA.name"
-            echo "${{ needs.get_task_details.outputs.task_data }}"
             echo "$TASK_DATA"
-
+    # 868avphru
     #   - name: Check out the repository
     #     uses: actions/checkout@v2
 
