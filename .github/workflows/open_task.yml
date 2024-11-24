@@ -35,8 +35,9 @@ jobs:
         - name: Create a new branch
           env:
             TASK_ID: ${{ github.event.inputs.task_id }}
-            BRANCHNAME: ${{ needs.get_task_details.outputs.branchname }}
+            BRANCH_NAME: ${{ needs.get_task_details.outputs.branchname }}
           run: |
+            echo "creating branch $BRANCH_NAME"
             git checkout -b "$BRANCH_NAME"
             git push origin "$BRANCH_NAME"
           
