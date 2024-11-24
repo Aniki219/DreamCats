@@ -23,6 +23,7 @@ jobs:
             --header "Authorization: ${API_TOKEN}")
             taskname=$(echo "$response" | jq -r '.name')
             branchname=$(echo "$taskname" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30)
+            echo "$branchname"
             echo "branchname=$branchname" >> "$GITHUB_OUTPUT"
 
   open_task:
