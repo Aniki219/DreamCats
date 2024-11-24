@@ -11,7 +11,7 @@ jobs:
   get_task_details:
     runs-on: ubuntu-latest
     outputs:
-      task_data: ${{ steps.task_data_step.outputs.task_data }}
+      task_name: ${{ steps.task_data_step.outputs.task_name }}
     steps:        
       - name: Get Task ClickUp
         env:
@@ -21,7 +21,9 @@ jobs:
         run: |
             response=$(curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" \
             --header "Authorization: ${API_TOKEN}")
-            echo "task_data=$response" >> "$GITHUB_OUTPUT"
+            taskname=$response.name
+            branchname=$(echo "$task_name" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30)
+            echo "task_name=$branchname" >> "$GITHUB_OUTPUT"
 
   open_task:
     needs: get_task_details
@@ -29,9 +31,9 @@ jobs:
     steps:
         - name: Say Details
           env:
-            TASK_NAME: ${{ fromJSON(needs.get_task_details.outputs.task_data).name }}
+            TASK_NAME: ${{ needs.get_task_details.outputs.task_name }}
           run: |
-            echo "$TASK_NAME" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30
+            echo "$TASK_NAME"
 
     # 868avphru
     #   - name: Check out the repository
