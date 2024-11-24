@@ -21,7 +21,7 @@ jobs:
         run: |
             response=$(curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" \
             --header "Authorization: ${API_TOKEN}")
-            echo "task_data=$response" >> "$GITHUB_OUTPUT"
+            echo "task_data=$response" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30 >> "$GITHUB_OUTPUT"
 
   open_task:
     needs: get_task_details
@@ -29,9 +29,9 @@ jobs:
     steps:
         - name: Say Details
           env:
-            TASK_DATA: ${{ fromJSON(needs.get_task_details.outputs.task_data) }}
+            TASK_NAME: ${{ fromJSON(needs.get_task_details.outputs.task_data).name }}
           run: |
-            echo "${{ env.TASK_DATA.name }}"
+            echo "$TASK_NAME"
 
     # 868avphru
     #   - name: Check out the repository
