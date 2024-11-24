@@ -8,40 +8,59 @@ on:
         required: true
         
 jobs:
+  get_task_details:
+    runs-on: ubuntu-latest
+    steps:        
+      - name: Get Task ClickUp
+        env:
+          TASK_ID: ${{ github.event.inputs.task_id }}
+          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
+        id: task_data_step
+        run: |
+          {
+            echo 'JSON_RESPONSE<<EOF'
+            curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" --header "Authorization: ${API_TOKEN}"
+            echo EOF
+          } >> "$GITHUB_ENV"
+
   open_task:
+    needs: get_task_details
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+        - name: Say Details
+          run: |
+            echo "$GITHUB_ENV"
+    #   - name: Check out the repository
+    #     uses: actions/checkout@v2
 
-      - name: Create a new branch with task_id
-        env:
-          TASK_ID: ${{ github.event.inputs.task_id }}
-        run: |
-          git checkout -b "$TASK_ID"
-          git push origin "$TASK_ID"
+    #   - name: Create a new branch with task_id
+    #     env:
+    #       TASK_ID: ${{ github.event.inputs.task_id }}
+    #     run: |
+    #       git checkout -b "$TASK_ID"
+    #       git push origin "$TASK_ID"
           
-      - name: Update Task Status in ClickUp
-        env:
-          TASK_ID: ${{ github.event.inputs.task_id }}
-          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
-        run: |
-          curl --location --request PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
-          --header "Content-Type: application/json" \
-          --header "Authorization: ${API_TOKEN}" \
-          --data '{
-              "status": "in progress"
-          }'
+    #   - name: Update Task Status in ClickUp
+    #     env:
+    #       TASK_ID: ${{ github.event.inputs.task_id }}
+    #       API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
+    #     run: |
+    #       curl --location --request PUT "https://api.clickup.com/api/v2/task/${TASK_ID}" \
+    #       --header "Content-Type: application/json" \
+    #       --header "Authorization: ${API_TOKEN}" \
+    #       --data '{
+    #           "status": "in progress"
+    #       }'
           
-      - name: Update Task GitHub Link in ClickUp
-        env:
-          TASK_ID: ${{ github.event.inputs.task_id }}
-          API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
-          REPO_URL: "https://github.com/Aniki219/DreamCats/tree"
-        run: |
-          curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}/field/09619d65-23ce-4c38-ab24-c11f8bdcee71" \
-          --header "Content-Type: application/json" \
-          --header "Authorization: ${API_TOKEN}" \
-          --data "{
-              \"value\": \"${REPO_URL}/${TASK_ID}\"
-          }"
+    #   - name: Update Task GitHub Link in ClickUp
+    #     env:
+    #       TASK_ID: ${{ github.event.inputs.task_id }}
+    #       API_TOKEN: ${{ secrets.CLICKUP_API_KEY }}
+    #       REPO_URL: "https://github.com/Aniki219/DreamCats/tree"
+    #     run: |
+    #       curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}/field/09619d65-23ce-4c38-ab24-c11f8bdcee71" \
+    #       --header "Content-Type: application/json" \
+    #       --header "Authorization: ${API_TOKEN}" \
+    #       --data "{
+    #           \"value\": \"${REPO_URL}/${TASK_ID}\"
+    #       }"
