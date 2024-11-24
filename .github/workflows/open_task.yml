@@ -31,8 +31,8 @@ jobs:
           env:
             TASK_DATA: ${{ needs.get_task_details.outputs.task_data }}
           run: |
-            echo "${{ fromJSON('$TASK_DATA').name}}"
-            echo "$TASK_DATA"
+            echo "${{ fromJSON(env.TASK_DATA).name}}"
+
     # 868avphru
     #   - name: Check out the repository
     #     uses: actions/checkout@v2
