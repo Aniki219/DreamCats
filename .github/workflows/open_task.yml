@@ -24,6 +24,8 @@ jobs:
             taskname=$response.name
             branchname=$(echo "$task_name" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30)
             echo "task_name=$branchname" >> "$GITHUB_OUTPUT"
+            echo $taskname
+            echo "$branchname"
 
   open_task:
     needs: get_task_details
