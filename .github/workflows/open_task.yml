@@ -29,9 +29,9 @@ jobs:
     steps:
         - name: Say Details
           env:
-            TASK_DATA: ${{ fromJSON(needs.get_task_details.outputs.task_data) }}
+            TASK_DATA: ${{ needs.get_task_details.outputs.task_data }}
           run: |
-            echo "$TASK_DATA.name"
+            echo "${{ fromJSON('$TASK_DATA').name}}"
             echo "$TASK_DATA"
     # 868avphru
     #   - name: Check out the repository
