@@ -11,7 +11,7 @@ jobs:
   get_task_details:
     runs-on: ubuntu-latest
     outputs:
-      task_data: ${{ steps.get_task_details.output.task_data }}
+      task_data: ${{ steps.task_data_step.outputs.task_data }}
     steps:        
       - name: Get Task ClickUp
         env:
@@ -22,16 +22,19 @@ jobs:
             response=$(curl --location "https://api.clickup.com/api/v2/task/${TASK_ID}" \
             --header "Authorization: ${API_TOKEN}")
             echo "task_data=$response" >> "$GITHUB_OUTPUT"
-            echo "hi "
-            echo "$response"
 
   open_task:
     needs: get_task_details
     runs-on: ubuntu-latest
     steps:
         - name: Say Details
+          env:
+            TASK_DATA: ${{ needs.get_task_details.outputs.task_data }}
           run: |
-            echo "${{ steps.get_task_details.output.task_data }}"
+            echo "$TASK_DATA.name"
+            echo "${{ needs.get_task_details.outputs.task_data }}"
+            echo "$TASK_DATA"
+
     #   - name: Check out the repository
     #     uses: actions/checkout@v2
 
