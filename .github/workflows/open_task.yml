@@ -31,8 +31,7 @@ jobs:
           env:
             TASK_NAME: ${{ fromJSON(needs.get_task_details.outputs.task_data).name }}
           run: |
-            branchname=$(echo "$TASK_NAME" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30)
-            echo $branchname
+            echo "$TASK_NAME" | sed -e 's/\(\w\)/\L\1/g' -e 's/[[:punct:][:space:]]/_/g' | cut -c 1-30
 
     # 868avphru
     #   - name: Check out the repository
