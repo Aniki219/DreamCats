@@ -14,16 +14,18 @@ export async function getCats(): Promise<Cat[]> {
         throw new Error('Failed to fetch cat.');
     }
 }
-
+//TODO: findById<Cat>(id);
 export async function getCatById(id: string) {
     try {
-        const cat = prisma.cat.findUnique({
+        const cat = await prisma.cat.findUnique({
             where: { id: id }
-        })
-        return cat;
+        });
+        if (cat) {
+            return cat
+        }
+        throw new Error(`No Cat found with id: ${id}`);
     } catch (error) {
-        console.log(error);
-        throw new Error('Failed to fetch cat.');
+        throw new Error(`Failed to fetch cat: ${error}`);
     }
 }
 

@@ -1,4 +1,4 @@
-import { Attributes, Prisma, Role } from '@prisma/client'
+import { Prisma, Role } from '@prisma/client'
 import { ParseArgsConfig, parseArgs } from 'node:util'
 import bcryptjs from 'bcryptjs'
 import { PrismaClient } from '@prisma/client';
@@ -42,12 +42,12 @@ async function main() {
 
             const cats = await getCats();
 
-            const myCat = await createUserCat({ user: AtlasMoth, cat: cats[0] });
+            const myCat = await createUserCat(AtlasMoth, cats[0]);
 
             if (cats.length >= 4) {
-                await createUserCat({ user: AtlasMoth, cat: cats[1] });
-                await createUserCat({ user: AtlasMoth, cat: cats[2] });
-                await createUserCat({ user: AtlasMoth, cat: cats[3] });
+                await createUserCat(AtlasMoth, cats[1]);
+                await createUserCat(AtlasMoth, cats[2]);
+                await createUserCat(AtlasMoth, cats[3]);
             }
 
             const egg = await createEgg({ parentUserId: myCat.userId, parentCatId: myCat.catId });
