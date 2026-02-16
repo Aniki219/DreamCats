@@ -27,7 +27,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <h1 className="header">Dream Cats</h1>
+        <div className="content">    
+            <div className="navbar">
+                <ul>
+                    <li>Do thing 1</li>
+                    <li>Do thing 2</li>
+                    <li>Do thing 3</li>
+                </ul>
+            </div>
+            <div className="game-display">
+                {children}
+            </div>
+            <div className="catsbar">
+                <ul>
+                    <li>Cat 1</li>
+                    <li>Cat 2</li>
+                    <li>Cat 3</li>
+                </ul>
+            </div>
+        </div>
+        <h1 className="header">Footer</h1>
       </body>
     </html>
   );
