@@ -1,0 +1,29 @@
+expeditions:
+  - name: Tutorial 1
+    description: Learn to move and fight
+    maxCats: 1
+    enemies:
+    - name: Ghost Cat
+      hp: 5
+  - name: Tutorial 2
+    description: Learn to play as a team
+    maxCats: 2
+    enemies:
+    - name: Ghost Cat
+      hp: 5
+  - name: Tutorial 3
+    description: Learn to summon Cats
+    maxCats: 2
+    enemies:
+    - name: Ghost Cat
+      hp: 5
+    - name: Ghost Cat
+      hp: 5
+    - name: Ghost Cat
+      hp: 5
+  - name: Tutorial 4
+    description: Learn to capture territory
+    maxCats: 1
+    enemies:
+    - name: Ghost Cat
+      hp: 5

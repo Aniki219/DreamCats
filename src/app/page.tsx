@@ -4,12 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import NavArrow from "./components/game/NavArrow";
 import { Direction } from "@/types/NavArrowOrientation";
+import DreamBoard from "./components/game/DreamBoard";
 
 export default function Home() {
     const [treeIndex, setTreeIndex] = useState(1);
 
   return (
-    <div className="game-window">
+      <div className="game-window">
         <Image 
             src={`/tree${treeIndex}.png`}
             alt={`Tree floor ${treeIndex}`}
@@ -36,6 +37,7 @@ function getNavArrows(treeIndex : number, setTreeIndex : (i : number) => void) {
                     <NavArrow onClick={setTreeIndex} toIndex={2} top={320} left={7} orientation={Direction.LEFT}/>
                     <NavArrow onClick={setTreeIndex} toIndex={3} top={10} left={540} orientation={Direction.UP}/>
                     <NavArrow onClick={setTreeIndex} toIndex={0} top={523} left={367} orientation={Direction.DOWN}/>
+                    <DreamBoard/>
                 </div>
             )
         case 2: //Kitchen

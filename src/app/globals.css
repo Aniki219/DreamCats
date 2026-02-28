@@ -1,79 +1,131 @@
-body, html {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+@import "tailwindcss";
+@plugin "./hero.ts";
+/* Note: You may need to change the path to fit your project structure */
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+body,
+html {
+  @apply h-screen overflow-hidden m-0 p-0;
 }
 
 body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
-    background: #7c7a45;
+  @apply text-(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  background: #7c7a45;
 }
 
 .content {
-    display: flex;
-    flex-wrap: nowrap;
+  @apply flex flex-nowrap;
 }
 
 .game-window {
-    position: relative;
+  @apply relative;
 }
 
 .navbar {
-    width: 20%;
-    box-sizing: border-box;
-    border: 6px solid black;
-    border-radius: 3px;
+  @apply w-1/5 box-border rounded-[3px] border-[6px] border-solid border-[black];
 }
 
-li {
-    border-bottom: 6px solid black;
-    border-radius: 3px;
-    padding: 15px;
-    font-size: 24;
-    font-weight: bold;
+/* li {
+  @apply text-[24] font-[bold] p-[15px] rounded-[3px] border-b-[6px] border-b-[black] border-solid hover:pl-5;
 }
 
 li:hover {
-    background: rgba(255, 255, 255, 0.2);
-    padding-left: 20px;
-}
+  background: rgba(255, 255, 255, 0.2);
+} */
 
 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  @apply m-0 p-0;
+  list-style: none;
 }
 
 h1 {
-    text-align: center;
+  @apply text-center;
 }
 
 .catsbar {
-    width: 20%;
-    box-sizing: border-box;
-    border: 6px solid black;
-    border-radius: 3px;
+  @apply w-1/5 box-border rounded-[3px] border-[6px] border-solid border-[black];
 }
 
 .game-display {
-    width: auto;
-    box-sizing: border-box;
-    border: solid black;
-    border-radius: 3px;
-    background: black;
-    text-align: center;
-    overflow: hidden;
-    border-width: 6px 0;
+  @apply w-auto box-border text-center overflow-hidden rounded-[3px] border-[black] border-[6px_0];
+  background: black;
 }
 
 .navArrow {
-    position: 'absolute';
-    height: 70px;
+  @apply h-[70px] hover:h-20;
+  position: "absolute";
 }
 
-.navArrow:hover {
-    height: 80px;
+.embla {
+  --slide-height: 16rem;
+  --slide-spacing: 1rem;
+  --slide-size: 40%;
+}
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  margin: 20px;
+  border: 2px solid white;
+}
+.embla__slide__number {
+  border: 0.2rem solid var(--detail-medium-contrast);
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  user-select: none;
+}
+.embla__controls {
+  display: grid;
+  justify-content: center;
+}
+.embla__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  align-items: center;
+}
+.embla__button {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border: 0.2rem solid var(--detail-medium-contrast);
+  width: 3.6rem;
+  height: 3.6rem;
+  z-index: 1;
+  border-radius: 50%;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(0deg);
+}
+.embla__button--disabled {
+  color: var(--detail-high-contrast);
+}
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
 }
