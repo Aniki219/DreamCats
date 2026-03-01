@@ -1,15 +1,22 @@
+"use client"
+
 import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Link, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, useDisclosure } from '@heroui/react';
 import { useState } from 'react';
 import EmblaCarousel from '../Carousel/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
-import { parse } from 'yaml'
+import { Expedition } from '@/app/actions/GetExpeditions';
 
 const OPTIONS: EmblaOptionsType = { loop: false, watchDrag: false }
 const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
-export default function DreamBoard() {
+type DreamBoardProps = {
+    expeditions : Expedition[]
+}
+
+export default function DreamBoard(props : DreamBoardProps) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const {expeditions} = props;
 
     return (
         <>
@@ -37,7 +44,7 @@ export default function DreamBoard() {
                                     <TableBody>
                                     <TableRow>
                                         <TableCell>
-                                            <DreamList/>
+                                            <DreamList expeditions={expeditions}/>
                                         </TableCell>
                                         <TableCell>
                                             <DreamDescription/>
@@ -90,8 +97,8 @@ function DreamDescription() {
     );
 }
 
-function DreamList() {
-    const items = parse();
+function DreamList(props : {expeditions: Expedition[]}) {
+    const {expeditions} = props
 
     const ListboxWrapper = ({children} : {children: any}) => (
     <div className="w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
@@ -101,14 +108,12 @@ function DreamList() {
 
     return (
         <ListboxWrapper>
-            <Listbox aria-label="Dynamic Actions" items={items}>
+            <Listbox aria-label="Dynamic Actions" items={expeditions}>
                 {(item) => (
                 <ListboxItem
-                    key={item.key}
-                    className={item.key === "delete" ? "text-danger" : ""}
-                    color={item.key === "delete" ? "danger" : "default"}
+                    key={item.name}
                 >
-                    {item.label}
+                    {item.name}
                 </ListboxItem>
                 )}
             </Listbox>
