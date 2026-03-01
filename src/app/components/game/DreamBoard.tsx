@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Link, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, useDisclosure } from '@heroui/react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import EmblaCarousel from '../Carousel/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import { Expedition } from '@/app/actions/GetExpeditions';
@@ -15,8 +15,11 @@ type DreamBoardProps = {
 }
 
 export default function DreamBoard(props : DreamBoardProps) {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const {expeditions} = props;
+
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [selectedExpedition, setSelectedExpedition] = useState<Expedition>(expeditions?.[0]);
+
 
     return (
         <>
@@ -28,7 +31,7 @@ export default function DreamBoard(props : DreamBoardProps) {
                 <ModalContent>
                 {(onClose) => (
                     <>
-                    <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">{selectedExpedition?.name}</ModalHeader>
                     <ModalBody>
                         <EmblaCarousel slides={SLIDES} options={OPTIONS}/>
                         <Tabs 
@@ -44,10 +47,15 @@ export default function DreamBoard(props : DreamBoardProps) {
                                     <TableBody>
                                     <TableRow>
                                         <TableCell>
-                                            <DreamList expeditions={expeditions}/>
+                                            <DreamList 
+                                                expeditions={expeditions}
+                                                setSelectedExpedition={setSelectedExpedition}
+                                            />
                                         </TableCell>
                                         <TableCell>
-                                            <DreamDescription/>
+                                            <DreamDescription
+                                                expedition={selectedExpedition}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                     </TableBody>
@@ -74,50 +82,48 @@ export default function DreamBoard(props : DreamBoardProps) {
     );
 }
 
-function DreamDescription() {
+function DreamDescription(props : {expedition? : Expedition}) {
+    const {expedition} = props;
+
+    if (!expedition) return <></>
     return (
         <Card className="max-w-[400px]">
             <CardHeader className="flex gap-3">
-                <div className="flex flex-col">
-                    <p className="text-md">HeroUI</p>
-                    <p className="text-small text-default-500">heroui.com</p>
-                </div>
+                <p className="text-md">{expedition.name}</p>
             </CardHeader>
             <Divider />
             <CardBody>
-                <p>Make beautiful websites regardless of your design experience.</p>
+                <p>{expedition.description}</p>
             </CardBody>
             <Divider />
             <CardFooter>
-                <Link isExternal showAnchorIcon href="https://github.com/heroui-inc/heroui">
-                    Visit source code on GitHub.
-                </Link>
+                <div className="flex flex-col">
+                    <p className="text-md">Max Cats: {expedition.maxCats}</p>
+                    <p className="text-md">Enemies: {expedition.enemies.length}</p>
+                </div>
             </CardFooter>
         </Card>
     );
 }
 
-function DreamList(props : {expeditions: Expedition[]}) {
-    const {expeditions} = props
-
-    const ListboxWrapper = ({children} : {children: any}) => (
-    <div className="w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
-        {children}
-    </div>
-    );
+function DreamList(props : {expeditions: Expedition[], setSelectedExpedition : (expedition : Expedition) => void}) {
+    const {expeditions, setSelectedExpedition} = props
 
     return (
-        <ListboxWrapper>
-            <Listbox aria-label="Dynamic Actions" items={expeditions}>
-                {(item) => (
-                <ListboxItem
-                    key={item.name}
-                >
-                    {item.name}
-                </ListboxItem>
-                )}
-            </Listbox>
-        </ListboxWrapper>
+        <Listbox 
+            aria-label="Dynamic Actions"
+            items={expeditions}
+            selectedKeys={[expeditions?.[0].name ?? ""]}
+        >
+            {(item) => (
+            <ListboxItem
+                key={item.name}
+                onPress={() => setSelectedExpedition(item)}
+            >
+                {item.name}
+            </ListboxItem>
+            )}
+        </Listbox>
     );
 }
 
