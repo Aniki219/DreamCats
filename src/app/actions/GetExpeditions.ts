@@ -13,6 +13,7 @@ export type Expedition = {
     description : string,
     maxCats : number,
     enemies : Enemy[],
+    mapIcon: string,
 }
 
 export default async function GetExpeditions() {

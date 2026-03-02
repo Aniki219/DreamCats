@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import EmblaCarousel from '../Carousel/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import { Expedition } from '@/app/actions/GetExpeditions';
+import Image from 'next/image';
 
 const OPTIONS: EmblaOptionsType = { loop: false, watchDrag: false }
 const SLIDE_COUNT = 5
@@ -33,7 +34,11 @@ export default function DreamBoard(props : DreamBoardProps) {
                     <>
                     <ModalHeader className="flex flex-col gap-1">{selectedExpedition?.name}</ModalHeader>
                     <ModalBody>
-                        <EmblaCarousel slides={SLIDES} options={OPTIONS}/>
+                        <EmblaCarousel
+                            options={OPTIONS}
+                            selectedExpedition={selectedExpedition}
+                            expeditions={expeditions}
+                        />
                         <Tabs 
                             aria-label="Options"
                             classNames={{tabList: "w-full"}}
@@ -94,6 +99,12 @@ function DreamDescription(props : {expedition? : Expedition}) {
             <Divider />
             <CardBody>
                 <p>{expedition.description}</p>
+                <Image
+                    src={`/${expedition.mapIcon}`}
+                    alt={"mapIcon"}
+                    width={100}
+                    height={100}
+                />
             </CardBody>
             <Divider />
             <CardFooter>

@@ -6,14 +6,17 @@ import {
   PrevButton,
   usePrevNextButtons
 } from './EmblaCarouselArrowButtons'
+import { Expedition } from '@/app/actions/GetExpeditions'
+import Image from 'next/image'
 
 type PropType = {
-  slides: number[]
   options?: EmblaOptionsType
+  selectedExpedition?: Expedition
+  expeditions: Expedition[]
 }
 
 const EmblaCarousel = (props: PropType) => {
-  const { slides, options } = props
+  const { expeditions, selectedExpedition, options } = props
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
   const {
@@ -27,10 +30,15 @@ const EmblaCarousel = (props: PropType) => {
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((index) => (
+          {expeditions.map((exp, index) => (
             <div className="embla__slide" key={index}>
               <div className="embla__slide__number">
-                <span>{index + 1}</span>
+                <Image
+                  src={`/${exp.mapIcon}`}
+                  alt="mapImage"
+                  width={250}
+                  height={250}
+                />
               </div>
             </div>
           ))}
