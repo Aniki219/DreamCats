@@ -1,6 +1,6 @@
 import path from "path";
 import { parse } from "yaml";
-import fs from "fs"
+import fs from "fs/promises"
 
 async function parseYamlFile<T>(filePath: string): Promise<T> {
   try {

@@ -22,11 +22,18 @@
     hp: 5
   - name: Ghost Cat
     hp: 5
-  mapIcon: tut1MiniMap.png
+  mapIcon: tut3MiniMap.png
 - name: Tutorial 4
   description: Learn to capture territory
   maxCats: 1
   enemies:
   - name: Ghost Cat
     hp: 5
-  mapIcon: tut1MiniMap.png
+  mapIcon: tut4MiniMap.png
+- name: Tutorial 5
+  description: Learn to capture territory
+  maxCats: 1
+  enemies:
+  - name: Ghost Cat
+    hp: 5
+  mapIcon: tut5MiniMap.png
