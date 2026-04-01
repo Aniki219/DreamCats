@@ -1,16 +1,14 @@
 "use client"
 
-import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Tab, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, useDisclosure } from '@heroui/react';
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, useDisclosure } from '@heroui/react';
 import { useState } from 'react';
 import { Expedition } from '@/app/actions/GetExpeditions';
 import Image from 'next/image';
 
 type DreamSelectModalProps = {
-
     expeditions: Expedition[],
     acceptedExpeditions: Expedition[],
     setAcceptedExpeditions: (e: Expedition[]) => void
-
 }
 
 export default function DreamSelectModal(props: DreamSelectModalProps) {
@@ -22,7 +20,7 @@ export default function DreamSelectModal(props: DreamSelectModalProps) {
     return (
         <>
             <Button
-                className="absolute top-[220px] left-[120px] text-center"
+                className="absolute top-55 left-30 text-center"
                 onPress={onOpen}>View Assignments
             </Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='max-w-2xl'>
@@ -81,6 +79,7 @@ type DreamDescriptionProps = {
 
 function DreamDescription(props: DreamDescriptionProps) {
     const { expedition, accepted, setAccepted } = props;
+    const IMAGE_SIZE = 350;
 
     const accept = () => {
         if (!expedition) return
@@ -96,10 +95,25 @@ function DreamDescription(props: DreamDescriptionProps) {
 
     if (!expedition) return <></>
     return (
-        <Card className="max-w-[400px]">
+        <Card className="max-w-100">
             <CardHeader className="flex gap-3">
                 <p className="text-md text-center">{expedition.name}</p>
             </CardHeader>
+            <Divider />
+            <CardBody>
+                <div
+                    className="flex items-center justify-center"
+                    style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
+                >
+                    <Image
+                        src={`/${expedition.mapIcon}`}
+                        alt="Map Icon"
+                        width={IMAGE_SIZE}
+                        height={IMAGE_SIZE}
+                        className="object-contain" // Prevents stretching/cropping
+                    />
+                </div>
+            </CardBody>
             <Divider />
             <CardBody>
                 <div className="flex flex-row justify-between">
@@ -115,14 +129,6 @@ function DreamDescription(props: DreamDescriptionProps) {
                         <br></br>
                         <p className="pr-1">{expedition.description}</p>
                     </div>
-                    <div className='w-[100px] h-[100px] flex items-center'>
-                        <Image
-                            src={`/${expedition.mapIcon}`}
-                            alt={"mapIcon"}
-                            width={100}
-                            height={100}
-                        />
-                    </div>
                 </div>
             </CardBody>
             <Divider />
@@ -130,15 +136,15 @@ function DreamDescription(props: DreamDescriptionProps) {
                 {
                     expedition && accepted.includes(expedition) ?
                         <>
-                            <Button className='bg-red-700'
-                                onPress={revoke}
-                            >
-                                Revoke
-                            </Button>
                             <Button className='bg-blue-700'
                                 disabled={true}
                             >
                                 Accepted
+                            </Button>
+                            <Button className='bg-red-700'
+                                onPress={revoke}
+                            >
+                                Revoke
                             </Button>
                         </>
                         :
@@ -161,7 +167,7 @@ type DreamListProps = {
 }
 
 function DreamList(props: DreamListProps,) {
-    const { expeditions, setSelectedExpedition, accepted, selected } = props
+    const { expeditions, setSelectedExpedition, accepted } = props
     const acceptedKeys = accepted.map(d => d.name);
 
     return (

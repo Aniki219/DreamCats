@@ -1,12 +1,12 @@
 "use client"
 
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, useDisclosure } from '@heroui/react';
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
 import { useState } from 'react';
 import DreamCarousel from '../Carousel/DreamCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import { Expedition } from '@/app/actions/GetExpeditions';
 
-const OPTIONS: EmblaOptionsType = { loop: false, watchDrag: false }
+const OPTIONS: EmblaOptionsType = { loop: false, watchDrag: false, startIndex: 1 }
 
 type DreamAssignmentModalProps = {
     expeditions: Expedition[]
@@ -22,7 +22,7 @@ export default function DreamAssignmentModal(props: DreamAssignmentModalProps) {
     return (
         <>
             <Button
-                className="absolute top-[100px] left-[280px] text-center"
+                className="absolute top-25 left-70 text-center"
                 onPress={onOpen}>Open Dream Board
             </Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='max-w-2xl'>

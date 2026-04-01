@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { EmblaEventType, EmblaOptionsType } from 'embla-carousel'
+import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import {
     NextButton,
@@ -8,6 +7,7 @@ import {
 } from './CarouselArrowButtons'
 import { Expedition } from '@/app/actions/GetExpeditions'
 import Image from 'next/image'
+import { useEffect } from 'react'
 
 type PropType = {
     options?: EmblaOptionsType
@@ -20,12 +20,6 @@ const DreamCarousel = (props: PropType) => {
     const { expeditions, selectedExpedition, setSelected, options } = props
     const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
-    useEffect(() => {
-        const index = expeditions.findIndex((e) => e.name == selectedExpedition?.name);
-        if (index < 0 || index >= expeditions.length) return;
-        emblaApi?.scrollTo(index + 1)
-    }, [selectedExpedition, expeditions.length])
-
     const {
         prevBtnDisabled,
         nextBtnDisabled,
@@ -33,12 +27,16 @@ const DreamCarousel = (props: PropType) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi)
 
+    const jumpTo = (index: number) => {
+        emblaApi?.scrollTo(index + 1)
+        setSelected(expeditions[index]);
+    }
+
     const GetExpeditionSlides = () => {
         return (
             expeditions.map((exp, index) => (
-                <div className="embla__slide" key={index + 1} onClick={() => { setSelected(exp); }}>
+                <div className="embla__slide" key={index} onClick={() => { jumpTo(index) }}>
                     <div className="embla__slide__number">
-                        <span>{index + 1}</span>
                         <Image
                             src={`/${exp.mapIcon}`}
                             alt="mapImage"
@@ -53,16 +51,14 @@ const DreamCarousel = (props: PropType) => {
 
     const GetPaddingSlide = (index: number) => {
         return (
-            <div className="embla__slide" key={index}>
-                <div className="embla__slide__number">
-                </div>
+            <div className="embla__slide" style={{ border: 'none' }} key={index}>
             </div>
         )
     }
 
     const GetSlides = () => {
         const slides = GetExpeditionSlides();
-        slides.unshift(GetPaddingSlide(0));
+        slides.unshift(GetPaddingSlide(-100));
         slides.push(GetPaddingSlide(100));
         return slides;
     }
